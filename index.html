@@ -1,14 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
- <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#10121A">
-  <title>Clipper</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&amp;display=swap" rel="stylesheet">
-  <style>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10121A">
+<title>Clipper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
 /* Clipper — mobile-first, dark mode */
 :root{
   --bg:#10121A; --surface:#191C27; --surface-2:#232838; --line:#2D3348;
@@ -158,118 +158,127 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 
 </style>
- </head>
- <body>
-  <header class="top">
-   <h1>Clipper</h1>
-   <span id="statusChip" class="chip">Belum ada video</span>
-  </header>
-  <main>
-   <!-- ========== IMPOR ========== -->
-   <section id="view-import" class="view on">
+</head>
+<body>
+
+<header class="top">
+  <h1>Clipper</h1>
+  <span id="statusChip" class="chip">Belum ada video</span>
+</header>
+
+<main>
+  <!-- ========== IMPOR ========== -->
+  <section id="view-import" class="view on">
     <label class="field-label" for="ytUrl">Link YouTube</label>
     <div class="url-row">
-     <input id="ytUrl" type="url" inputmode="url" placeholder="Tempel link video atau live" autocomplete="off">
-     <button id="btnPaste" class="btn ghost" type="button">Tempel</button>
+      <input id="ytUrl" type="url" inputmode="url" placeholder="Tempel link video atau live" autocomplete="off">
+      <button id="btnPaste" class="btn ghost" type="button">Tempel</button>
     </div>
     <button id="btnLoad" class="btn primary block" type="button">Muat video</button>
     <p id="urlError" class="error" hidden></p>
+
     <div id="previewCard" class="card" hidden>
-     <div class="embed">
-      <iframe id="previewFrame" title="Pratinjau video" allowfullscreen allow="encrypted-media; picture-in-picture"></iframe>
-     </div>
-     <button id="btnEdit" class="btn primary block" type="button">Edit jadi klip</button>
+      <div class="embed"><iframe id="previewFrame" title="Pratinjau video" allowfullscreen
+        allow="encrypted-media; picture-in-picture"></iframe></div>
+      <button id="btnEdit" class="btn primary block" type="button">Edit jadi klip</button>
     </div>
-    <label class="btn ghost block file-btn"> Atau pilih video dari HP <input id="videoFile" type="file" accept="video/*" hidden> </label>
+
+    <label class="btn ghost block file-btn">
+      Atau pilih video dari HP
+      <input id="videoFile" type="file" accept="video/*" hidden>
+    </label>
+
     <h2 class="section-title">Momen viral</h2>
     <p class="hint">Contoh data. Isi API key di app.js untuk memuat video trending asli.</p>
     <div id="trendGrid" class="grid"></div>
-   </section>
-   <!-- ========== EDITOR ========== -->
-   <section id="view-editor" class="view">
+  </section>
+
+  <!-- ========== EDITOR ========== -->
+  <section id="view-editor" class="view">
     <div id="emptyEditor" class="empty">
-     <p>Belum ada video untuk diedit.</p>
-     <button class="btn primary" data-go="import" type="button">Pilih video</button>
+      <p>Belum ada video untuk diedit.</p>
+      <button class="btn primary" data-go="import" type="button">Pilih video</button>
     </div>
+
     <div id="editorBody" hidden>
-     <div class="stage-wrap">
-      <div id="stage" class="stage r169" style="--cx:50%">
-       <div id="media"></div>
-       <div id="subtitle" class="subtitle pos-bottom"></div>
+      <div class="stage-wrap">
+        <div id="stage" class="stage r169" style="--cx:50%">
+          <div id="media"></div>
+          <div id="subtitle" class="subtitle pos-bottom"></div>
+        </div>
       </div>
-     </div>
-     <div class="transport">
-      <button id="btnPlay" class="btn round" type="button" aria-label="Putar">▶</button>
-      <div class="time">
-       <span id="timeNow">0:00</span>
-       <div class="bar">
-        <i id="playFill"></i>
-       </div>
+
+      <div class="transport">
+        <button id="btnPlay" class="btn round" type="button" aria-label="Putar">▶</button>
+        <div class="time"><span id="timeNow">0:00</span><div class="bar"><i id="playFill"></i></div></div>
+        <button id="btnRatio" class="btn ghost" type="button">Ubah Rasio <b id="ratioLabel">16:9</b></button>
       </div>
-      <button id="btnRatio" class="btn ghost" type="button">Ubah Rasio <b id="ratioLabel">16:9</b></button>
-     </div>
-     <button id="btnAuto" class="btn primary block" type="button">Auto potong &amp; unduh</button>
-     <p class="hint">Mencari bagian paling ramai dari suara video, memotong 30 detik jadi 9:16, lalu merekam klipnya. Khusus video dari HP.</p>
-     <div class="tabs" role="tablist">
-      <button class="on" data-tab="trim" role="tab">Potong</button>
-      <button data-tab="sub" role="tab">Subtitle</button>
-      <button data-tab="audio" role="tab">Audio</button>
-     </div>
-     <div id="panel-trim" class="panel on">
-      <div class="slider-row">
-       <label for="rngStart">Mulai</label><output id="outStart">0:00</output>
+
+      <button id="btnAuto" class="btn primary block" type="button">Auto potong &amp; unduh</button>
+      <p class="hint">Mencari bagian paling ramai dari suara video, memotong 30 detik jadi 9:16, lalu merekam klipnya. Khusus video dari HP.</p>
+
+      <div class="tabs" role="tablist">
+        <button class="on" data-tab="trim" role="tab">Potong</button>
+        <button data-tab="sub" role="tab">Subtitle</button>
+        <button data-tab="audio" role="tab">Audio</button>
       </div>
-      <input id="rngStart" type="range" min="0" max="60" step="0.1" value="0">
-      <button id="setStart" class="btn ghost small" type="button">Mulai dari posisi sekarang</button>
-      <div class="slider-row">
-       <label for="rngEnd">Selesai</label><output id="outEnd">0:30</output>
+
+      <div id="panel-trim" class="panel on">
+        <div class="slider-row"><label for="rngStart">Mulai</label><output id="outStart">0:00</output></div>
+        <input id="rngStart" type="range" min="0" max="60" step="0.1" value="0">
+        <button id="setStart" class="btn ghost small" type="button">Mulai dari posisi sekarang</button>
+
+        <div class="slider-row"><label for="rngEnd">Selesai</label><output id="outEnd">0:30</output></div>
+        <input id="rngEnd" type="range" min="0" max="60" step="0.1" value="30">
+        <button id="setEnd" class="btn ghost small" type="button">Selesai di posisi sekarang</button>
+
+        <p class="hint">Durasi klip: <b id="clipLen">0:30</b></p>
+
+        <div id="cropRow" hidden>
+          <div class="slider-row"><label for="rngCrop">Geser area crop 9:16</label></div>
+          <input id="rngCrop" type="range" min="0" max="100" value="50">
+        </div>
       </div>
-      <input id="rngEnd" type="range" min="0" max="60" step="0.1" value="30">
-      <button id="setEnd" class="btn ghost small" type="button">Selesai di posisi sekarang</button>
-      <p class="hint">Durasi klip: <b id="clipLen">0:30</b></p>
-      <div id="cropRow" hidden>
-       <div class="slider-row">
-        <label for="rngCrop">Geser area crop 9:16</label>
-       </div>
-       <input id="rngCrop" type="range" min="0" max="100" value="50">
+
+      <div id="panel-sub" class="panel">
+        <label class="field-label" for="subText">Teks subtitle</label>
+        <input id="subText" type="text" maxlength="120" placeholder="Ketik teks yang tampil di video">
+        <div class="seg" id="subPos">
+          <button data-pos="top">Atas</button>
+          <button data-pos="mid">Tengah</button>
+          <button class="on" data-pos="bottom">Bawah</button>
+        </div>
+        <div class="slider-row"><label for="subSize">Ukuran teks</label></div>
+        <input id="subSize" type="range" min="3" max="9" step="0.5" value="5">
       </div>
-     </div>
-     <div id="panel-sub" class="panel">
-      <label class="field-label" for="subText">Teks subtitle</label> <input id="subText" type="text" maxlength="120" placeholder="Ketik teks yang tampil di video">
-      <div class="seg" id="subPos">
-       <button data-pos="top">Atas</button>
-       <button data-pos="mid">Tengah</button>
-       <button class="on" data-pos="bottom">Bawah</button>
+
+      <div id="panel-audio" class="panel">
+        <label class="btn ghost block file-btn">
+          <span id="bgmName">Unggah backsound dari HP</span>
+          <input id="bgmFile" type="file" accept="audio/*" hidden>
+        </label>
+        <div class="slider-row"><label for="volOrig">Suara asli video</label><output id="outVolOrig">100%</output></div>
+        <input id="volOrig" type="range" min="0" max="100" value="100">
+        <div class="slider-row"><label for="volBgm">Backsound</label><output id="outVolBgm">60%</output></div>
+        <input id="volBgm" type="range" min="0" max="100" value="60">
+        <button id="bgmClear" class="btn ghost small" type="button" hidden>Hapus backsound</button>
       </div>
-      <div class="slider-row">
-       <label for="subSize">Ukuran teks</label>
-      </div>
-      <input id="subSize" type="range" min="3" max="9" step="0.5" value="5">
-     </div>
-     <div id="panel-audio" class="panel">
-      <label class="btn ghost block file-btn"> <span id="bgmName">Unggah backsound dari HP</span> <input id="bgmFile" type="file" accept="audio/*" hidden> </label>
-      <div class="slider-row">
-       <label for="volOrig">Suara asli video</label><output id="outVolOrig">100%</output>
-      </div>
-      <input id="volOrig" type="range" min="0" max="100" value="100">
-      <div class="slider-row">
-       <label for="volBgm">Backsound</label><output id="outVolBgm">60%</output>
-      </div>
-      <input id="volBgm" type="range" min="0" max="100" value="60">
-      <button id="bgmClear" class="btn ghost small" type="button" hidden>Hapus backsound</button>
-     </div>
     </div>
-   </section>
-  </main>
-  <div id="exportBar" class="export-bar" hidden>
-   <button id="btnExport" class="btn primary block" type="button"><span id="exportLabel">Unduh ke Galeri</span></button>
-  </div>
-  <nav class="bottom-nav">
-   <button class="on" data-go="import" type="button">Impor</button>
-   <button data-go="editor" type="button">Editor</button>
-  </nav>
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script>
+  </section>
+</main>
+
+<div id="exportBar" class="export-bar" hidden>
+  <button id="btnExport" class="btn primary block" type="button"><span id="exportLabel">Unduh ke Galeri</span></button>
+</div>
+
+<nav class="bottom-nav">
+  <button class="on" data-go="import" type="button">Impor</button>
+  <button data-go="editor" type="button">Editor</button>
+</nav>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
 'use strict';
 /* =========================================================
    Clipper — logika UI
@@ -400,4 +409,232 @@ function mountFile(file) {
   return new Promise((res, rej) => {
     v.onerror = () => rej(new Error('Video tidak bisa dibuka'));
     v.onloadedmetadata = () => res({
-      play: () => v.play(), pause: () => v.pause(), seek: t => { v.
+      play: () => v.play(), pause: () => v.pause(), seek: t => { v.currentTime = t; },
+      time: () => v.currentTime, duration: () => v.duration,
+      volume: x => { v.volume = x / 100; }, destroy: () => URL.revokeObjectURL(url),
+    });
+  });
+}
+
+/* ---------- Editor ---------- */
+async function openEditor(src) {
+  if (!src) return;
+  $('#btnEdit').disabled = true; toast('Menyiapkan editor…');
+  try {
+    if (P) { clearInterval(tickId); P.pause(); P.destroy(); P = null; }
+    P = src.type === 'yt' ? await mountYouTube(src.id) : await mountFile(src.file);
+    let d = 0; for (let i = 0; i < 25 && !(d = P.duration()); i++) await sleep(200);   // tunggu durasi
+    S.src = src; S.dur = Math.floor(d) || 60;
+    S.start = Math.min(src.start || 0, Math.max(0, S.dur - 1));
+    S.end = Math.min(S.dur, S.start + 30);
+    ['rngStart', 'rngEnd'].forEach(id => { $('#' + id).max = S.dur; });
+    $('#statusChip').textContent = src.type === 'yt' ? 'YouTube' : 'File HP';
+    $('#emptyEditor').hidden = true; $('#editorBody').hidden = false;
+    syncTrim(); P.seek(S.start); applyVolumes();
+    tickId = setInterval(tick, 200);
+    go('editor');
+  } catch (e) { toast(e.message || 'Gagal memuat video'); }
+  $('#btnEdit').disabled = false;
+}
+function setPlaying(p) {
+  S.playing = p; $('#btnPlay').textContent = p ? '❚❚' : '▶';
+  const a = S.bgm?.audio; if (!a) return;
+  if (p) { a.currentTime = (P.time() - S.start) % (a.duration || 1e9) || 0; a.play().catch(() => {}); } else a.pause();
+}
+function tick() {
+  if (!P) return;
+  const t = P.time();
+  if (S.playing && t >= S.end) { P.seek(S.start); if (S.bgm) S.bgm.audio.currentTime = 0; }
+  const len = S.end - S.start, pos = Math.min(Math.max(t - S.start, 0), len);
+  $('#timeNow').textContent = `${fmt(pos)} / ${fmt(len)}`;
+  $('#playFill').style.width = (len ? pos / len * 100 : 0) + '%';
+}
+$('#btnPlay').onclick = () => {
+  if (S.playing) return P.pause();
+  const t = P.time(); if (t < S.start || t >= S.end - 0.2) P.seek(S.start);
+  P.play();
+};
+$('#stage').onclick = () => $('#btnPlay').click();
+
+/* Trim */
+function syncTrim() {
+  $('#rngStart').value = S.start; $('#rngEnd').value = S.end;
+  $('#outStart').textContent = fmt(S.start); $('#outEnd').textContent = fmt(S.end);
+  $('#clipLen').textContent = fmt(S.end - S.start);
+}
+$('#rngStart').oninput = e => { S.start = Math.min(+e.target.value, S.end - 1); syncTrim(); P.seek(S.start); };
+$('#rngEnd').oninput = e => { S.end = Math.max(+e.target.value, S.start + 1); syncTrim(); P.seek(Math.max(S.start, S.end - 1)); };
+$('#setStart').onclick = () => { S.start = Math.min(P.time(), S.end - 1); syncTrim(); };
+$('#setEnd').onclick = () => { S.end = Math.min(Math.max(P.time(), S.start + 1), S.dur); syncTrim(); };
+
+/* Ubah rasio 16:9 ⇄ 9:16 */
+$('#btnRatio').onclick = () => {
+  S.ratio = S.ratio === '16:9' ? '9:16' : '16:9';
+  const st = $('#stage'); st.classList.toggle('r169', S.ratio === '16:9'); st.classList.toggle('r916', S.ratio === '9:16');
+  $('#ratioLabel').textContent = S.ratio; $('#cropRow').hidden = S.ratio === '16:9';
+};
+$('#rngCrop').oninput = e => { S.cx = +e.target.value; $('#stage').style.setProperty('--cx', S.cx + '%'); };
+
+/* Tab alat */
+$$('.tabs button').forEach(b => b.onclick = () => {
+  $$('.tabs button').forEach(x => x.classList.toggle('on', x === b));
+  $$('.panel').forEach(p => p.classList.toggle('on', p.id === `panel-${b.dataset.tab}`));
+});
+
+/* Subtitle */
+$('#subText').oninput = e => { S.sub.text = e.target.value; $('#subtitle').textContent = S.sub.text; };
+$('#subPos').onclick = e => {
+  const b = e.target.closest('button'); if (!b) return;
+  S.sub.pos = b.dataset.pos; $$('#subPos button').forEach(x => x.classList.toggle('on', x === b));
+  $('#subtitle').className = 'subtitle pos-' + S.sub.pos;
+};
+$('#subSize').oninput = e => { S.sub.size = +e.target.value; $('#stage').style.setProperty('--sub', S.sub.size); };
+
+/* Backsound */
+function applyVolumes() {
+  P?.volume(S.volOrig);
+  if (S.bgm) S.bgm.audio.volume = S.volBgm / 100;
+}
+$('#bgmFile').onchange = e => {
+  const f = e.target.files[0]; if (!f) return;
+  if (S.bgm) { S.bgm.audio.pause(); URL.revokeObjectURL(S.bgm.audio.src); }
+  const audio = new Audio(URL.createObjectURL(f)); audio.loop = true;
+  S.bgm = { file: f, audio }; applyVolumes();
+  $('#bgmName').textContent = f.name; $('#bgmClear').hidden = false;
+  if (S.playing) setPlaying(true);
+};
+$('#bgmClear').onclick = () => {
+  S.bgm?.audio.pause(); S.bgm = null; $('#bgmFile').value = '';
+  $('#bgmName').textContent = 'Unggah backsound dari HP'; $('#bgmClear').hidden = true;
+};
+$('#volOrig').oninput = e => { S.volOrig = +e.target.value; $('#outVolOrig').textContent = S.volOrig + '%'; applyVolumes(); };
+$('#volBgm').oninput  = e => { S.volBgm  = +e.target.value; $('#outVolBgm').textContent  = S.volBgm  + '%'; applyVolumes(); };
+
+/* =========================================================
+   Auto potong: cari 30 detik paling ramai (energi suara)
+   Ini heuristik suara, bukan AI yang memahami isi video.
+   ========================================================= */
+async function findBestMoment(file, len, dur) {
+  if (file.size > 300e6) throw new Error('File terlalu besar (maks sekitar 300 MB)');
+  const AC = window.AudioContext || window.webkitAudioContext, ctx = new AC({ sampleRate: 8000 });
+  const audio = await ctx.decodeAudioData(await file.arrayBuffer()); ctx.close();
+  const d = audio.getChannelData(0), sr = audio.sampleRate, n = Math.floor(audio.duration), e = new Float32Array(n);
+  for (let i = 0; i < n; i++) {
+    let s = 0; const a = i * sr, b = Math.min(d.length, a + sr);
+    for (let j = a; j < b; j++) s += d[j] * d[j];
+    e[i] = Math.sqrt(s / sr);
+  }
+  let cur = 0, best = -1, at = 0;
+  for (let i = 0; i < n; i++) {
+    cur += e[i]; if (i >= len) cur -= e[i - len];
+    if (i >= len - 1 && cur > best) { best = cur; at = i - len + 1; }
+  }
+  return Math.max(0, Math.min(at, dur - len));
+}
+$('#btnAuto').onclick = async () => {
+  if (S.src?.type !== 'file') return toast('Auto potong butuh video dari HP. Pakai "Atau pilih video dari HP".');
+  if (S.rendering) return;
+  toast('Mencari momen terbaik…');
+  try {
+    const len = Math.min(30, S.dur);
+    S.start = await findBestMoment(S.src.file, len, S.dur); S.end = Math.min(S.dur, S.start + len);
+    if (S.ratio === '16:9') $('#btnRatio').click();
+    syncTrim(); P.seek(S.start);
+    toast(`Momen terbaik mulai ${fmt(S.start)}. Merekam…`);
+    await sleep(600); $('#btnExport').click();
+  } catch (e) { toast('Analisis gagal: ' + (e.message || e)); }
+};
+
+/* =========================================================
+   Render nyata di HP: canvas + MediaRecorder (tanpa FFmpeg)
+   ========================================================= */
+function subtitleCanvas(j, W, H) {
+  const c = Object.assign(document.createElement('canvas'), { width: W, height: H }), x = c.getContext('2d');
+  const fs = W * j.size / 100;
+  x.font = `800 ${fs}px "Plus Jakarta Sans",sans-serif`; x.textAlign = 'center'; x.textBaseline = 'top';
+  x.lineJoin = 'round'; x.lineWidth = fs * .18; x.strokeStyle = '#000'; x.fillStyle = '#fff';
+  const lines = []; let l = '';
+  for (const w of j.text.split(/\s+/)) {
+    const t = l ? l + ' ' + w : w;
+    if (x.measureText(t).width > W * .88 && l) { lines.push(l); l = w; } else l = t;
+  }
+  lines.push(l);
+  const lh = fs * 1.25, h = lines.length * lh, y0 = { top: H * .07, mid: (H - h) / 2, bottom: H * .93 - h }[j.pos];
+  lines.forEach((t, i) => { x.strokeText(t, W / 2, y0 + i * lh); x.fillText(t, W / 2, y0 + i * lh); });
+  return c;
+}
+async function renderClip(j, onStep) {
+  const r916 = j.ratio === '9:16', W = r916 ? 720 : 1280, H = r916 ? 1280 : 720;
+  const cv = Object.assign(document.createElement('canvas'), { width: W, height: H }), g = cv.getContext('2d');
+  const sub = j.text ? subtitleCanvas(j, W, H) : null;
+  const vid = document.createElement('video'); vid.src = URL.createObjectURL(j.src.file); vid.playsInline = true;
+  await new Promise((ok, no) => { vid.onloadedmetadata = ok; vid.onerror = () => no(new Error('Video tidak bisa dibuka')); });
+  const ac = new (window.AudioContext || window.webkitAudioContext)(), dest = ac.createMediaStreamDestination();
+  await ac.resume();
+  const hook = (el, vol) => { const gn = ac.createGain(); gn.gain.value = vol / 100; ac.createMediaElementSource(el).connect(gn).connect(dest); };
+  hook(vid, j.volOrig);
+  let bgm = null;
+  if (j.bgm) { bgm = new Audio(URL.createObjectURL(j.bgm.file)); bgm.loop = true; hook(bgm, j.volBgm); }
+  const stream = cv.captureStream(30); dest.stream.getAudioTracks().forEach(t => stream.addTrack(t));
+  const mime = ['video/mp4;codecs=avc1,mp4a.40.2', 'video/mp4', 'video/webm;codecs=vp9,opus', 'video/webm']
+    .find(m => MediaRecorder.isTypeSupported(m));
+  if (!mime) throw new Error('Browser ini tidak mendukung perekaman video');
+  const rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 5e6 }), chunks = [];
+  rec.ondataavailable = e => e.data.size && chunks.push(e.data);
+  if (Math.abs(vid.currentTime - j.start) > .05) {
+    const sk = new Promise(ok => { vid.onseeked = ok; }); vid.currentTime = j.start; await sk;
+  }
+  const draw = () => {
+    const vw = vid.videoWidth, vh = vid.videoHeight; g.fillStyle = '#000'; g.fillRect(0, 0, W, H);
+    if (r916) { const cw = vh * 9 / 16; g.drawImage(vid, (vw - cw) * j.cx / 100, 0, cw, vh, 0, 0, W, H); }
+    else { const k = Math.min(W / vw, H / vh); g.drawImage(vid, (W - vw * k) / 2, (H - vh * k) / 2, vw * k, vh * k); }
+    if (sub) g.drawImage(sub, 0, 0);
+  };
+  let lock; try { lock = await navigator.wakeLock?.request('screen'); } catch {}
+  const stopped = new Promise(res => { rec.onstop = res; });
+  draw(); rec.start(500); vid.play(); bgm?.play();
+  await new Promise(fin => {
+    const loop = () => {
+      draw(); onStep('Merekam', Math.min(99, Math.round((vid.currentTime - j.start) / (j.end - j.start) * 100)));
+      if (vid.currentTime >= j.end || vid.ended) return fin();
+      requestAnimationFrame(loop);
+    };
+    loop();
+  });
+  rec.stop(); vid.pause(); bgm?.pause(); await stopped; lock?.release(); ac.close();
+  URL.revokeObjectURL(vid.src); if (bgm) URL.revokeObjectURL(bgm.src);
+  return new Blob(chunks, { type: mime.split(';')[0] });
+}
+
+async function saveBlob(blob, name) {
+  const f = new File([blob], name, { type: blob.type });
+  if (navigator.canShare?.({ files: [f] })) {            // HP: lembar bagikan → "Simpan Video"
+    try { await navigator.share({ files: [f] }); return 'share'; }
+    catch (e) { if (e.name === 'AbortError') return 'cancel'; }
+  }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 5000); return 'download';
+}
+$('#btnExport').onclick = async () => {
+  if (S.rendering || !S.src) return;
+  if (S.src.type !== 'file') return toast('Video YouTube tidak bisa dirender. Pilih video dari HP.');
+  S.rendering = true; P.pause(); S.bgm?.audio.pause();
+  const btn = $('#btnExport'), label = $('#exportLabel'); btn.disabled = true;
+  const onStep = (t, p) => { label.textContent = `${t}… ${p}%`; btn.style.setProperty('--p', p + '%'); };
+  toast('Jangan tutup atau pindah dari halaman ini selama merekam.');
+  try {
+    const blob = await renderClip({ src: S.src, start: S.start, end: S.end, ratio: S.ratio, cx: S.cx, text: S.sub.text,
+      pos: S.sub.pos, size: S.sub.size, bgm: S.bgm, volOrig: S.volOrig, volBgm: S.volBgm }, onStep);
+    const r = await saveBlob(blob, `clip-${Math.floor(S.start)}s.${blob.type.includes('mp4') ? 'mp4' : 'webm'}`);
+    if (r !== 'cancel') toast('Klip siap. Pilih "Simpan Video" atau Galeri.');
+  } catch (e) { toast('Render gagal: ' + (e.message || e)); }
+  label.textContent = 'Unduh ke Galeri'; btn.style.setProperty('--p', '0%');
+  btn.disabled = false; S.rendering = false; P.seek(S.start);
+};
+
+/* ---------- Init ---------- */
+renderTrending();
+
+</script>
+</body>
+</html>
